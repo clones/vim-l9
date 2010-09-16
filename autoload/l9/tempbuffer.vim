@@ -52,7 +52,7 @@ function l9#tempbuffer#open(bufname, filetype, lines, topleft, vertical, height,
   else
     call l9#tempbuffer#close(a:bufname)
     execute openCmdPrefix . 'split'
-    execute s:dataMap[a:bufname].bufNr . 'buffer'
+    execute 'silent ' . s:dataMap[a:bufname].bufNr . 'buffer'
   endif
   let s:dataMap[a:bufname] = {
         \   'bufNr': bufnr('%'),
