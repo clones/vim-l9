@@ -210,6 +210,22 @@ function l9#getPathSeparator()
   return (!&shellslash && (has('win32') || has('win64')) ? '\' : '/')
 endfunction
 
+" [ 'a', 'b/', '/c' ] -> 'a/b/c'
+function l9#concatPaths(paths)
+  let result = ''
+  for p in a:paths
+    if empty(p)
+      continue
+    elseif empty(result)
+      let result = p
+    else
+      let result = substitute(result, '[/\\]$', '', '') . l9#getPathSeparator()
+            \    . substitute(p, '^[/\\]', '', '')
+    endif
+  endfor
+  return result
+endfunction
+
 " path: '/a/b/c/d', dir: '/a/b' => 'c/d'
 function l9#modifyPathRelativeToDir(path, dir)
   let pathFull = fnamemodify(a:path, ':p')
