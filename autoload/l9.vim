@@ -238,6 +238,32 @@ endfunction
 
 " }}}1
 "=============================================================================
+" FILE {{{1
+
+" Almost same as readfile().
+function l9#readFile(...)
+  let args = copy(a:000)
+  let args[0] = expand(args[0])
+  try
+    return call('readfile', args)
+  catch
+  endtry
+  return []
+endfunction
+
+" Almost same as writefile().
+function l9#writeFile(...)
+  let args = copy(a:000)
+  let args[1] = expand(args[1])
+  try
+    return call('writefile', args)
+  catch
+  endtry
+  return -1 " -1 is error code.
+endfunction
+
+" }}}1
+"=============================================================================
 " BUFFER {{{1
 
 " :wall/:wall! wrapper. Useful for writing readonly buffers.
