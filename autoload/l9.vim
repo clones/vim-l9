@@ -256,6 +256,7 @@ function l9#writeFile(...)
   let args = copy(a:000)
   let args[1] = expand(args[1])
   try
+    call mkdir(fnamemodify(args[1], ':h'), 'p')
     return call('writefile', args)
   catch
   endtry
