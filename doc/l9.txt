@@ -52,7 +52,7 @@ ABOUT                                      *l9-about* *l9-contact* *l9-author*
 
 Author:  Takeshi NISHIDA <ns9tks@DELETE-ME.gmail.com>
 Licence: MIT Licence
-URL:     http://www.vim.org/scripts/script.php?script_id= [TODO]
+URL:     http://www.vim.org/scripts/script.php?script_id=3252
          http://bitbucket.org/ns9tks/vim-l9/
 
 Bugs/Issues/Suggestions/Improvements ~
