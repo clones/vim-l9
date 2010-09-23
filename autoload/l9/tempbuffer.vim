@@ -40,7 +40,9 @@ endfunction
 " a:bufname:
 " a:height: Window height. If 0, default height is used.
 "           If less than 0, the window becomes full-screen. 
-function l9#tempbuffer#openScratch(bufname, filetype, lines, topleft, vertical, height)
+" a:listener:
+"   a:listener.onClose(written)
+function l9#tempbuffer#openScratch(bufname, filetype, lines, topleft, vertical, height, listener)
   let openCmdPrefix = (a:topleft ? 'topleft ' : '')
         \           . (a:vertical ? 'vertical ' : '')
         \           . (a:height > 0 ? a:height : '')
@@ -59,19 +61,21 @@ function l9#tempbuffer#openScratch(bufname, filetype, lines, topleft, vertical, 
   silent file `=a:bufname`
   call setline(1, a:lines)
   setlocal nomodified
+  augroup L9TempBuffer
+    autocmd! * <buffer>
+    execute printf('autocmd BufDelete   <buffer>        call s:onBufDelete  (%s)', string(a:bufname))
+    execute printf('autocmd BufWriteCmd <buffer> nested call s:onBufWriteCmd(%s)', string(a:bufname))
+  augroup END
   let s:dataMap[a:bufname] = {
         \   'bufNr': bufnr('%'),
+        \   'written': 0,
+        \   'listener': a:listener,
         \ }
 endfunction
 
-" a:bufname:
-" a:height: Window height. If 0, default height is used.
-"           If less than 0, the window becomes full-screen. 
-" a:listener:
-"   a:listener.onClose(written)
-"   a:listener.onWrite(lines)
-function l9#tempbuffer#openReadOnly(bufname, filetype, lines, topleft, vertical, height)
-  call l9#tempbuffer#openScratch(a:bufname, a:filetype, a:lines, a:topleft, a:vertical, a:height)
+"
+function l9#tempbuffer#openReadOnly(bufname, filetype, lines, topleft, vertical, height, listener)
+  call l9#tempbuffer#openScratch(a:bufname, a:filetype, a:lines, a:topleft, a:vertical, a:height, a:listener)
   setlocal nomodifiable readonly
 endfunction
 
@@ -79,15 +83,8 @@ endfunction
 "   a:listener.onClose(written)
 "   a:listener.onWrite(lines)
 function l9#tempbuffer#openWritable(bufname, filetype, lines, topleft, vertical, height, listener)
-  call l9#tempbuffer#openScratch(a:bufname, a:filetype, a:lines, a:topleft, a:vertical, a:height)
+  call l9#tempbuffer#openScratch(a:bufname, a:filetype, a:lines, a:topleft, a:vertical, a:height, a:listener)
   setlocal buftype=acwrite
-  let s:dataMap[a:bufname].listener = a:listener
-  let s:dataMap[a:bufname].written = 0
-  augroup L9TempBuffer
-    autocmd! * <buffer>
-    execute printf('autocmd BufDelete   <buffer>        call s:onBufDelete  (%s)', string(a:bufname))
-    execute printf('autocmd BufWriteCmd <buffer> nested call s:onBufWriteCmd(%s)', string(a:bufname))
-  augroup END
 endfunction
 
 " makes specified temp buffer current.
