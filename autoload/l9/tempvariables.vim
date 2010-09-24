@@ -33,6 +33,7 @@ endfunction
 function l9#tempvariables#setList(group, variables)
   for [name, value] in a:variables
     call l9#tempvariables#set(a:group, name, value)
+    unlet value " to avoid E706
   endfor
 endfunction
 
@@ -45,6 +46,7 @@ function l9#tempvariables#swap(group)
   endif
   for [name, value] in items(variables)
     execute 'let ' . name . ' = value'
+    unlet value " to avoid E706
   endfor
   let s:varsMap[a:group].active = !s:varsMap[a:group].active
 endfunction
