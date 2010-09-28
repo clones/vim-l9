@@ -1,7 +1,7 @@
 "=============================================================================
 " Copyright (C) 2009-2010 Takeshi NISHIDA
 "
-" TODO: GetLatestVimScripts
+" GetLatestVimScripts: 3252 1 :AutoInstall: L9
 "=============================================================================
 " LOAD GUARD {{{1
 
