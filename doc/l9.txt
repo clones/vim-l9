@@ -17,7 +17,7 @@ l9 is a Vim-script library, which provides some utility functions and commands
 for programming in Vim.
 
 ==============================================================================
-INSTALLATION                                                *fuf-installation*
+ INSTALLATION                                                *l9-installation*
 
 Put all files into your runtime directory. If you have the zip file, extract
 it to your runtime directory.
